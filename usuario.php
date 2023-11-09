@@ -94,9 +94,9 @@
             $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
 
             $sql1 = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada', '$fechaNacimiento')";
-            $sql2 = "INSERT INTO cestas (usuario, precioTotal) VALUES ('$usario', 0)";
+            $sql2 = "INSERT INTO cestas (usuario, precioTotal) VALUES ('$usuario', 0)";
             $conexion -> query($sql1);
-            $conexion2-> query($sql2);
+            $conexion -> query($sql2);
         }
     }
     ?>

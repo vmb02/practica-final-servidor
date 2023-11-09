@@ -21,6 +21,13 @@
         $temp_descripcion = depurar($_POST["descripcion"]);
         $temp_cantidad = depurar($_POST["cantidad"]);
 
+        $nombre_imagen = $_FILES["imagen"]["name"];
+        $tipo_imagen = $_FILES["imagen"]["type"];
+        $tamano_imagen = $_FILES["imagen"]["size"];
+        $ruta_temporal = $_FILES["imagen"]["tmp_name"];
+        $ruta_final = "imagenes/" . $nombre_imagen;
+        move_uploaded_file($ruta_temporal, $ruta_final);
+
         //Validación del nombre
         if(strlen($temp_nombre) == 0) {
             $err_nombre = "El nombre es un campo obligatorio";
@@ -91,11 +98,12 @@
         
         if(isset($nombre) && isset($precioProducto) && isset($descripcion) && isset($cantidad)) {
             $sql = "INSERT INTO productos
-                    (nombreProducto, precio, descripcion, cantidad)
+                    (nombreProducto, precio, descripcion, cantidad, imagen)
                     VALUES('$nombre',
                             '$precioProducto',
                             '$descripcion',
-                            $cantidad)";
+                            $cantidad,
+                            '$ruta_final')";
             $conexion -> query($sql);
         }
     }
@@ -104,7 +112,7 @@
 
 <div class="container">
     <h1>Registrar producto</h1>
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">Nombre Producto: </label>
             <input class="form-control" type="text" name="nombreProducto">
@@ -124,6 +132,10 @@
             <label class="form-label">Cantidad: </label>
             <input class="form-control" type="number" name="cantidad">
             <?php if(isset($err_precio)) echo $err_precio ?>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Imagen</label>
+            <input class="form-control" type="file" name="imagen">
         </div>
         <input class="btn btn-primary" type="submit" value="Añadir">
     </form>

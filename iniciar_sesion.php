@@ -34,8 +34,10 @@
                 session_start();
                 $_SESSION["usuario"] = $usuario;
                 header('location: principal.php');
-            } else {
-                echo "La contraseña está mal. Abunda lacaca";
+            } else {?>
+                <div class="alert alert-danger" role="alert">
+                La contraseña es incorrecta.
+            </div><?php
             }
         }        
     }
