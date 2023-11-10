@@ -23,6 +23,7 @@
     <div class="container">
         <h1>Página principal</h1>
         <h2>Bienvenid@ <?php echo $usuario ?></h2>
+        <a href="cerrar_sesion.php">Cerrar sesión</a>
     </div>
 
     <div class="container">
