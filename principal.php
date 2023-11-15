@@ -19,6 +19,39 @@
         $_SESSION["usuario"] = "invitado";
         $usuario = $_SESSION["usuario"];
     }
+
+    if($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id_producto = $_POST["idProducto"];
+        echo "<p>El producto seleccionado es $id_producto</p>";
+
+        $usuario = $_SESSION["usuario"];
+        $sql1 = "SELECT idCesta FROM cestas WHERE usuario = '$usuario'";
+        $res = $conexion -> query($sql1);
+
+        if($res->num_rows > 0) {
+            $filaCestas = $res->fetch_assoc();
+            $id_cesta = $filaCestas["idCesta"];
+        }  
+
+        $sql2 = "SELECT * FROM productosCestas WHERE idProducto = '$id_producto' AND idCesta = '$id_cesta'";
+        $comp = $conexion -> query($sql2);
+              
+        if($comp->num_rows > 0) {
+            $filaCestas = $comp->fetch_assoc();
+            $cantidad = $filaCestas["cantidad"];
+            $cantidad += 1;
+            $sql4 = "UPDATE productosCestas SET cantidad = '$cantidad' WHERE idProducto = '$id_producto' AND idCesta = '$id_cesta'";
+            $conexion -> query($sql4);
+        } else {
+            $sql3 = "INSERT INTO productosCestas (idProducto, idCesta, cantidad)
+            VALUES ($id_producto, $id_cesta, 1)";
+            $conexion -> query($sql3);
+        }
+
+        
+    }
+
+    
     ?>
     <div class="container">
         <h1>Página principal</h1>
@@ -44,9 +77,7 @@
             $fila["imagen"]);
             array_push($productos, $nuevo_producto);
         }
-
-
-    ?>
+?>
     <table class="table table-striped">
             <thead class="table table-dark">
                 <tr>
@@ -56,6 +87,7 @@
                     <th>Descripción</th>
                     <th>Cantidad</th>
                     <th>Imagen</th>
+                    <th>Añadir</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,7 +101,16 @@
                     <td>" . $producto -> cantidad . "</td>
                     <td>"?>
                     <img width="55" height="75" src="<?php echo $producto -> imagen ?>">
-                    <?php echo "</td></tr>";
+                    <?php echo "</td>
+                    <td>"; ?>
+                        <form action="" method="post">
+                            <input type="hidden"
+                            name="idProducto"
+                            value="<?php echo $producto -> idProducto ?>">
+                            <input class="btn btn-warning" type="submit" value="Añadir">
+                        </form>
+                    <?php
+                    echo "</td></tr>";
             }
             ?>
             </tbody>
