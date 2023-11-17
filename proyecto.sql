@@ -68,10 +68,14 @@ USE db_peliculas;
 ALTER TABLE peliculas
 ADD COLUMN imagen VARCHAR(100);
 
-select * from productosCestas;
+select * from usuarios;
 use db_tienda;
 select * from usuarios;
 
 USE db_tienda;
 ALTER TABLE productos
 ADD COLUMN imagen VARCHAR(100);
+
+ALTER TABLE usuarios 
+ADD COLUMN rol VARCHAR(10) DEFAULT 'cliente';
+

@@ -14,6 +14,11 @@
             $salida = trim($salida);
             return $salida;
         }
+
+    session_start();
+    if($_SESSION["rol"] != "admin") {
+        header("Location: principal.php");
+    }
     
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $temp_nombre = depurar($_POST["nombreProducto"]);

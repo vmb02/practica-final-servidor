@@ -14,6 +14,7 @@
     session_start();
     if(isset($_SESSION["usuario"])) {
         $usuario = $_SESSION["usuario"];
+        echo $_SESSION["rol"];
     } else {
         //header('location: iniciar_sesion.php');
         $_SESSION["usuario"] = "invitado";
