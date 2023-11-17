@@ -52,3 +52,26 @@ CREATE TABLE productosCestas(
 		FOREIGN KEY (idCesta)
         REFERENCES cestas(idCesta)
 );
+
+CREATE SCHEMA db_login;
+USE db_login;
+
+CREATE TABLE usuarios (
+	usuario VARCHAR(20) PRIMARY KEY,
+    contrasena VARCHAR(255) NOT NULL
+);
+
+USE db_tienda;
+select * from productos;
+
+USE db_peliculas;
+ALTER TABLE peliculas
+ADD COLUMN imagen VARCHAR(100);
+
+select * from productosCestas;
+use db_tienda;
+select * from usuarios;
+
+USE db_tienda;
+ALTER TABLE productos
+ADD COLUMN imagen VARCHAR(100);
