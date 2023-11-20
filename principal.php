@@ -14,19 +14,18 @@
     session_start();
     if(isset($_SESSION["usuario"])) {
         $usuario = $_SESSION["usuario"];
-        echo $_SESSION["rol"];
     } else {
         //header('location: iniciar_sesion.php');
         $_SESSION["usuario"] = "invitado";
         $usuario = $_SESSION["usuario"];
+        
     }
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_producto = $_POST["idProducto"];
-        echo "<p>El producto seleccionado es $id_producto</p>";
 
         $usuario = $_SESSION["usuario"];
-        $sql1 = "SELECT idCesta FROM cestas WHERE usuario = '$usuario'";
+        $sql1 = "SELECT * FROM cestas WHERE usuario = '$usuario'";
         $res = $conexion -> query($sql1);
 
         if($res->num_rows > 0) {
@@ -37,6 +36,12 @@
         $sql2 = "SELECT * FROM productosCestas WHERE idProducto = '$id_producto' AND idCesta = '$id_cesta'";
         $comp = $conexion -> query($sql2);
               
+        $sql6 = "SELECT precio FROM productos WHERE idProducto = '$id_producto'";
+        $res = $conexion -> query($sql6);
+        $filaPrecio = $res -> fetch_assoc();
+        $precioProducto = $filaPrecio["precio"];
+
+
         if($comp->num_rows > 0) {
             $filaCestas = $comp->fetch_assoc();
             $cantidad = $filaCestas["cantidad"];
@@ -48,8 +53,11 @@
             VALUES ($id_producto, $id_cesta, 1)";
             $conexion -> query($sql3);
         }
-
         
+        $sqlprecio = "UPDATE cestas SET precioTotal = precioTotal + '$precioProducto' WHERE usuario = '$usuario'";
+        $conexion -> query($sqlprecio);
+        $sqlCantidad = "UPDATE productos SET cantidad = cantidad - 1 WHERE idProducto = '$id_producto'";
+        $conexion -> query($sqlCantidad);
     }
 
     
@@ -104,13 +112,14 @@
                     <img width="55" height="75" src="<?php echo $producto -> imagen ?>">
                     <?php echo "</td>
                     <td>"; ?>
+                    <?php if($usuario != "invitado") {?>
                         <form action="" method="post">
                             <input type="hidden"
                             name="idProducto"
                             value="<?php echo $producto -> idProducto ?>">
                             <input class="btn btn-warning" type="submit" value="Añadir">
                         </form>
-                    <?php
+                    <?php }
                     echo "</td></tr>";
             }
             ?>

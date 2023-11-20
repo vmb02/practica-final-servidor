@@ -40,7 +40,7 @@
             if(strlen($temp_nombre) > 40) {
                 $err_nombre = "El nombre no puede tener más de 40 caracteres";
             } else {
-                $patron = "/^[A-Za-z0-9 ]+$/";
+                $patron = "/^[A-ZÑa-zñ0-9 ]+$/";
                 if(!preg_match($patron, $temp_nombre)) {
                     $err_nombre = "El nombre debe estar compuesto por caracteres, números
                     y espacios en blanco.";

@@ -93,7 +93,7 @@
         if(isset($usuario) && isset($contrasena) && isset($fechaNacimiento)) {
             $contrasena_cifrada = password_hash($contrasena, PASSWORD_DEFAULT);
 
-            $sql1 = "INSERT INTO usuarios VALUES ('$usuario', '$contrasena_cifrada', '$fechaNacimiento')";
+            $sql1 = "INSERT INTO usuarios (usuario, contrasena, fechaNacimiento) VALUES ('$usuario', '$contrasena_cifrada', '$fechaNacimiento')";
             $sql2 = "INSERT INTO cestas (usuario, precioTotal) VALUES ('$usuario', 0)";
             $conexion -> query($sql1);
             $conexion -> query($sql2);
