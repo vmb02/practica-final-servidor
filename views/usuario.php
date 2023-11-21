@@ -97,6 +97,7 @@
             $sql2 = "INSERT INTO cestas (usuario, precioTotal) VALUES ('$usuario', 0)";
             $conexion -> query($sql1);
             $conexion -> query($sql2);
+            header("Location: iniciar_sesion.php");
         }
     }
     ?>

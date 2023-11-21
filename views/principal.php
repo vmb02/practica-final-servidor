@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php require '../util/base.php' ?>
     <?php  require '../util/producto.php'?>
+    <link rel="stylesheet" href="styles/estilo.css">
 
 </head>
 <body>
@@ -62,14 +63,36 @@
 
     
     ?>
-    <div class="container">
-        <h1>Página principal</h1>
-        <h2>Bienvenid@ <?php echo $usuario ?></h2>
-        <a href="cerrar_sesion.php">Cerrar sesión</a>
-    </div>
+    <header>
+        <nav class="navigator">
+            <ul>
+                <li><a href="principal.php">INICIO</a></li>
+                <?php
+                    if (isset($_SESSION["rol"])) {
+                        if ($_SESSION["rol"] == "admin"){
+                            echo "<li><a href='productos.php'>Añadir Productos</a></li>";
+                        }
+                    }
+
+                    if ($usuario == "invitado"){
+                        echo "<li><a href='iniciar_sesion.php'>Iniciar Sesión</a></li>";
+                        echo "<li><a href='usuario.php'>Añadir Usuario</a></li>";                    
+                    }else{
+                        echo "<li><a href='cesta.php'>Cesta</a></li>";
+                        echo "<li><a href='cerrar_sesion.php'>Cerrar sesión</a></li>";
+                    }
+                ?>
+            </ul>
+        </nav>
+    </header>
 
     <div class="container">
-        <h1>Listado de productos</h1>
+        <h1>Página principal</h1>
+        <h3>Bienvenid@ <?php echo $usuario ?></h3>
+    </div><br>
+    
+    <div class="container">
+        <h2>Listado de productos</h2>
     </div>
     <?php
         $sql = "SELECT * FROM productos";

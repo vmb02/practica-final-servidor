@@ -6,6 +6,8 @@
     <title>Cesta</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php require '../util/base.php'?>
+    <link rel="stylesheet" href="styles/estilo.css">
+
 </head>
 <body>
     <?php
@@ -42,6 +44,31 @@
         header("Location: iniciar_sesion.php");
     }
     ?>  
+    <header>
+        <nav class="navigator">
+            <ul>
+                <li><a href="principal.php">INICIO</a></li>
+                <?php
+                    if (isset($_SESSION["rol"])) {
+                        if ($_SESSION["rol"] == "admin"){
+                            echo "<li><a href='productos.php'>Añadir Productos</a></li>";
+                        }
+                    }
+
+                    if ($usuario == "invitado"){
+                        echo "<li><a href='iniciar_sesion.php'>Iniciar Sesión</a></li>";
+                        echo "<li><a href='usuario.php'>Añadir Usuario</a></li>";                    
+                    }else{
+                        echo "<li><a href='cesta.php'>Cesta</a></li>";
+                        echo "<li><a href='cerrar_sesion.php'>Cerrar sesión</a></li>";
+                    }
+                ?>
+            </ul>
+        </nav>
+    </header>
+
+
+
     <div class="container">
         <h1>Cesta</h1>
         <?php 
@@ -77,11 +104,6 @@
             </tbody>
         </table>
         
-        <?php echo $precioTotal ?>
-        <?php echo $id_cesta ?>
-        <?php echo $numeroProductos ?>
-
-
         <form method="post" action="realizarPedido.php">
             <input type="hidden" name="precioTotal" value="<?php echo $precioTotal ?>">
             <input type="hidden" name="idCesta" value="<?php echo $id_cesta ?>">
