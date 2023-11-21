@@ -1,18 +1,3 @@
-CREATE SCHEMA db_peliculas;
-USE db_peliculas;
-
-CREATE TABLE peliculas (
-	id_pelicula NUMERIC(8,0) PRIMARY KEY,
-    titulo VARCHAR(80) NOT NULL,
-    fecha_estreno DATE NOT NULL,
-    edad_recomendada VARCHAR(2) NOT NULL,
-    CONSTRAINT chk_fecha_estreno CHECK (fecha_estreno > '1895-01-01'),
-    CONSTRAINT chk_edad_recomendada CHECK (edad_recomendada IN('0', '3', '7', '12', '16', '18'))
-);
-
-SELECT * FROM PELICULAS;
-DROP SCHEMA db_peliculas;
-
 CREATE SCHEMA db_tienda;
 USE db_tienda;
 
@@ -53,26 +38,6 @@ CREATE TABLE productosCestas(
         REFERENCES cestas(idCesta)
 );
 
-CREATE SCHEMA db_login;
-USE db_login;
-
-CREATE TABLE usuarios (
-	usuario VARCHAR(20) PRIMARY KEY,
-    contrasena VARCHAR(255) NOT NULL
-);
-
-USE db_tienda;
-select * from productoscestas;
-
-USE db_peliculas;
-ALTER TABLE peliculas
-ADD COLUMN imagen VARCHAR(100);
-
-select * from productos;
-use db_tienda;
-select * from cestas;
-
-USE db_tienda;
 ALTER TABLE productos
 ADD COLUMN imagen VARCHAR(100);
 
@@ -87,7 +52,6 @@ CREATE TABLE pedidos(
     FOREIGN KEY (usuario) REFERENCES usuarios(usuario)
 );
 
-select * from lineasPedidos;
 
 CREATE TABLE lineasPedidos(
 	lineaPedido NUMERIC(2) NOT NULL,
@@ -101,4 +65,3 @@ CREATE TABLE lineasPedidos(
     REFERENCES productos(idProducto)
 );
 
-DROP TABLE lineasPedidos;

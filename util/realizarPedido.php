@@ -1,8 +1,8 @@
 <?php
-    require '../util/base.php';
+    require 'base.php';
     session_start();
     if(!isset($_SESSION["usuario"])) {
-        header("Location: iniciar_sesion.php");
+        header("Location: ../views/iniciar_sesion.php");
     }
     $usuario = $_SESSION["usuario"];
     $precioTotal = $_POST["precioTotal"];
@@ -46,5 +46,5 @@
 
     $sql5 = "UPDATE cestas SET precioTotal = '0.0' WHERE idCesta = '$idCesta'";
     $conexion -> query($sql5);
-    header("Location: principal.php");
+    header("Location: ../views/principal.php");
 ?>

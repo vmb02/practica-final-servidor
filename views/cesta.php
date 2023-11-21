@@ -60,7 +60,7 @@
                         echo "<li><a href='usuario.php'>Añadir Usuario</a></li>";                    
                     }else{
                         echo "<li><a href='cesta.php'>Cesta</a></li>";
-                        echo "<li><a href='cerrar_sesion.php'>Cerrar sesión</a></li>";
+                        echo "<li><a href='../util/cerrar_sesion.php'>Cerrar sesión</a></li>";
                     }
                 ?>
             </ul>
@@ -104,7 +104,7 @@
             </tbody>
         </table>
         
-        <form method="post" action="realizarPedido.php">
+        <form method="post" action="../util/realizarPedido.php">
             <input type="hidden" name="precioTotal" value="<?php echo $precioTotal ?>">
             <input type="hidden" name="idCesta" value="<?php echo $id_cesta ?>">
             <input type="hidden" name="numeroProductos" value="<?php echo $numeroProductos ?>">

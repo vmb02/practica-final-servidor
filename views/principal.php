@@ -8,10 +8,16 @@
     <?php require '../util/base.php' ?>
     <?php  require '../util/producto.php'?>
     <link rel="stylesheet" href="styles/estilo.css">
-
 </head>
 <body>
 <?php 
+
+    function depurar($entrada) {
+        $salida = htmlspecialchars($entrada);
+        $salida = trim($salida);
+        return $salida;
+    }
+
     session_start();
     if(isset($_SESSION["usuario"])) {
         $usuario = $_SESSION["usuario"];
@@ -24,8 +30,11 @@
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_producto = $_POST["idProducto"];
-
+        $cantidad = depurar($_POST["cantidad"]);
         $usuario = $_SESSION["usuario"];
+
+
+
         $sql1 = "SELECT * FROM cestas WHERE usuario = '$usuario'";
         $res = $conexion -> query($sql1);
 
@@ -41,27 +50,28 @@
         $res = $conexion -> query($sql6);
         $filaPrecio = $res -> fetch_assoc();
         $precioProducto = $filaPrecio["precio"];
-
+        $sqlcan = "SELECT * FROM productosCestas WHERE idProducto = $id_producto AND idCesta = $id_cesta";
+        $canCesta = $conexion -> query($sqlcan);
+        
 
         if($comp->num_rows > 0) {
+            $resCan = $canCesta -> fetch_assoc()["cantidad"];
             $filaCestas = $comp->fetch_assoc();
-            $cantidad = $filaCestas["cantidad"];
-            $cantidad += 1;
-            $sql4 = "UPDATE productosCestas SET cantidad = '$cantidad' WHERE idProducto = '$id_producto' AND idCesta = '$id_cesta'";
+            $resCan += $cantidad;
+            $sql4 = "UPDATE productosCestas SET cantidad = '$resCan' WHERE idProducto = '$id_producto' AND idCesta = '$id_cesta'";
             $conexion -> query($sql4);
         } else {
             $sql3 = "INSERT INTO productosCestas (idProducto, idCesta, cantidad)
-            VALUES ($id_producto, $id_cesta, 1)";
+            VALUES ($id_producto, $id_cesta, $cantidad)";
             $conexion -> query($sql3);
         }
         
         $sqlprecio = "UPDATE cestas SET precioTotal = precioTotal + '$precioProducto' WHERE usuario = '$usuario'";
         $conexion -> query($sqlprecio);
-        $sqlCantidad = "UPDATE productos SET cantidad = cantidad - 1 WHERE idProducto = '$id_producto'";
+        $sqlCantidad = "UPDATE productos SET cantidad = cantidad - '$cantidad' WHERE idProducto = '$id_producto'";
         $conexion -> query($sqlCantidad);
     }
 
-    
     ?>
     <header>
         <nav class="navigator">
@@ -79,7 +89,7 @@
                         echo "<li><a href='usuario.php'>Añadir Usuario</a></li>";                    
                     }else{
                         echo "<li><a href='cesta.php'>Cesta</a></li>";
-                        echo "<li><a href='cerrar_sesion.php'>Cerrar sesión</a></li>";
+                        echo "<li><a href='../util/cerrar_sesion.php'>Cerrar sesión</a></li>";
                     }
                 ?>
             </ul>
@@ -138,9 +148,16 @@
                     <td>"; ?>
                     <?php if($usuario != "invitado") {?>
                         <form action="" method="post">
-                            <input type="hidden"
+                        <input type="hidden"
                             name="idProducto"
                             value="<?php echo $producto -> idProducto ?>">
+                            <select name = "cantidad" class="form-select">
+                                <option selected value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
                             <input class="btn btn-warning" type="submit" value="Añadir">
                         </form>
                     <?php }

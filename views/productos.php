@@ -6,7 +6,10 @@
     <title>Productos</title>.    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <?php require '../util/base.php' ?>
+    <link rel="stylesheet" href="styles/estilo.css">
 </head>
+
+
 <body>
     <?php
         function depurar($entrada) {
@@ -114,6 +117,18 @@
     }
     
     ?>
+<header>
+        <nav class="navigator">
+            <ul>
+                <li><a href="principal.php">INICIO</a></li>
+                <?php
+                    echo "<li><a href='productos.php'>Añadir Productos</a></li>";
+                    echo "<li><a href='cesta.php'>Cesta</a></li>";
+                    echo "<li><a href='../util/cerrar_sesion.php'>Cerrar sesión</a></li>";
+                ?>
+            </ul>
+        </nav>
+    </header>
 
 <div class="container">
     <h1>Registrar producto</h1>
