@@ -1,5 +1,5 @@
 <?php
-    require 'base.php';
+    require '../util/base.php';
     session_start();
     if(!isset($_SESSION["usuario"])) {
         header("Location: iniciar_sesion.php");
